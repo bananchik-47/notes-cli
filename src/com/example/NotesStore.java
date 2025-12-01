@@ -57,7 +57,7 @@ public class NotesStore {
         }
 
         try (FileWriter writer = new FileWriter(file, true)) {
-            writer.write(newId + ":" + text + "\n");
+            writer.write(newId + ";" + text + "\n");
         } catch (IOException e) {
             throw new RuntimeException("Не удалось записать заметку");
         }

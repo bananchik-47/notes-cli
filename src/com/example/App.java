@@ -57,6 +57,9 @@ public class App {
                 }
                 break;
 
+            case "count":
+                System.out.println(store.count());
+                break;
 
             default:
                 System.out.println("Неизвестная команда: " + cmd);
