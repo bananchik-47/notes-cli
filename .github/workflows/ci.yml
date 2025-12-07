@@ -1,23 +1,45 @@
-name: CI
+name: build
 
 on:
   push:
-    branches: [ main, 'feature-*' ]
   pull_request:
-    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install JDK 17
+        uses: actions/setup-java@v3
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: '17'
-      - name: Compile
+
+      - name: Download JavaFX
         run: |
-          mkdir -p out
+          wget https://download2.gluonhq.com/openjfx/21.0.1/openjfx-21.0.1_linux-x64_bin-sdk.zip
+          unzip openjfx-21.0.1_linux-x64_bin-sdk.zip -d javafx
+
+      - name: Compile project
+        run: |
           find src -name "*.java" > sources.txt
-          xargs -a sources.txt javac -d out
+          javac \
+            --module-path javafx/javafx-sdk-21.0.1/lib \
+            --add-modules javafx.controls,javafx.fxml \
+            -d out @sources.txt
+
+      - name: Build JAR
+        run: |
+          echo "Main-Class: com.example.gui.Main" > manifest.txt
+          jar cfm app.jar manifest.txt -C out .
+
+      - name: Smoke test
+        run: |
+          java \
+            --module-path javafx/javafx-sdk-21.0.1/lib \
+            --add-modules javafx.controls,javafx.fxml \
+            -jar app.jar &
+          sleep 3
