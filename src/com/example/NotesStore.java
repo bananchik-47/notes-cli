@@ -106,4 +106,9 @@ public class NotesStore {
             throw new RuntimeException("Ошибка сохранения данных");
         }
     }
+
+    public List<String[]> list() {
+        return loadAll();
+    }
+
 }
