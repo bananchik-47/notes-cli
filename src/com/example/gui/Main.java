@@ -8,12 +8,12 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gui/view.fxml"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setTitle("Notes GUI");
         stage.show();
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/example/gui/style.css").toExternalForm());
     }
 
     public static void main(String[] args) {
