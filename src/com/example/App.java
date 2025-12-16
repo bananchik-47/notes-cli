@@ -10,7 +10,6 @@ public class App {
         String text = null;
         Integer id = null;
 
-        // Разбираем аргументы
         for (String a : args) {
             if (a.startsWith("--cmd=")) cmd = a.substring(6);
             if (a.startsWith("--text=")) text = a.substring(7);
